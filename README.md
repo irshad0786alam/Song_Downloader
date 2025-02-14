@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/978bbf24-326b-43d4-9ca2-912671f0d68e)
+!! Contrib. fork :)
 
 #### several significant improvements to the UI:
 
@@ -9,6 +9,7 @@
 - Implemented smooth animations and transitions
 - Responsive UI
 
+![image](https://github.com/user-attachments/assets/978bbf24-326b-43d4-9ca2-912671f0d68e)
 
 # Usage:
 - Make sure you have set up your .env file with your RapidAPI key:
