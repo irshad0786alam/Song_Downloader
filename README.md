@@ -9,7 +9,10 @@
 - Implemented smooth animations and transitions
 - Responsive UI
 
-![image](https://github.com/user-attachments/assets/978bbf24-326b-43d4-9ca2-912671f0d68e)
+
+https://github.com/user-attachments/assets/364f8d78-ff10-44c5-b16c-d65b4e1cc1d6
+
+
 # Before:
 ![image](https://github.com/user-attachments/assets/ed08a314-de66-4283-b6cd-d53cbe8bb0ac)
 
