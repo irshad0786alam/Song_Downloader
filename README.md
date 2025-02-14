@@ -10,6 +10,9 @@
 - Responsive UI
 
 ![image](https://github.com/user-attachments/assets/978bbf24-326b-43d4-9ca2-912671f0d68e)
+# Before:
+![image](https://github.com/user-attachments/assets/ed08a314-de66-4283-b6cd-d53cbe8bb0ac)
+
 
 # Usage:
 - Make sure you have set up your .env file with your RapidAPI key:
