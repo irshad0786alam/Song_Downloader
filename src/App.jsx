@@ -1,144 +1,132 @@
-import React, { useState } from "react";
-import { SlSocialSpotify } from "react-icons/sl";
-import axios from "axios";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-export default function App() {
-  const [URL, setURL] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+:root {
+  color-scheme: dark;
+}
 
-  const handleURL = (event) => {
-    event.preventDefault();
-    setURL(event.target.value);
-    setError("");
-  };
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: #0a0a0a;
+  color: white;
+  cursor: none;
+}
 
-  const extractSpotifyId = (url) => {
-    try {
-      // Handle different Spotify URL formats
-      const regex = /track\/([a-zA-Z0-9]+)/;
-      const match = url.match(regex);
-      return match ? match[1] : null;
-    } catch (error) {
-      return null;
-    }
-  };
+.cursor {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #4ade80;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 999;
+  transition: all 0.1s ease;
+  transition-property: width, height, border;
+}
 
-  const downloadSong = async () => {
-    if (!URL) {
-      setError("Please enter a Spotify URL");
-      return;
-    }
+.cursor-dot {
+  width: 4px;
+  height: 4px;
+  background: #4ade80;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 999;
+}
 
-    const songId = extractSpotifyId(URL);
-    if (!songId) {
-      setError("Invalid Spotify URL. Please enter a valid Spotify song link.");
-      return;
-    }
-    
-    setIsLoading(true);
-    setError("");
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
 
-    const options = {
-      method: 'GET',
-      url: 'https://spotify-downloader9.p.rapidapi.com/downloadSong',
-      params: {
-        songId: songId
-      },
-      headers: {
-        'X-RapidAPI-Key': import.meta.env.VITE_API_KEY,
-        'X-RapidAPI-Host': 'spotify-downloader9.p.rapidapi.com'
-      }
-    };
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
 
-    try {
-      const res = await axios.request(options);
-      if (res.data && res.data.data && res.data.data.downloadLink) {
-        window.location.href = res.data.data.downloadLink;
-      } else {
-        throw new Error("Download link not found in response");
-      }
-    } catch (error) {
-      console.error("Download error:", error);
-      setError("Failed to download song. Please check your API key and try again.");
-    } finally {
-      setIsLoading(false);
-      setURL("");
-    }
-  };
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
 
-  return (
-    <div className="relative min-h-screen w-full bg-[#0a0a0a] overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -inset-[10px] opacity-50">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r from-violet-600/30 to-indigo-600/30 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-gradient-to-r from-fuchsia-600/30 to-pink-600/30 rounded-full blur-3xl animate-pulse delay-75"></div>
-          <div className="absolute bottom-1/4 right-1/3 translate-x-1/2 translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-blue-600/30 to-cyan-600/30 rounded-full blur-3xl animate-pulse delay-150"></div>
-        </div>
-      </div>
+.animate-title {
+  animation: titleGlow 2s ease-in-out infinite;
+}
 
-      {/* Content */}
-      <div className="relative z-10 flex min-h-screen items-center justify-center">
-        <div className="w-full max-w-md p-8 rounded-2xl backdrop-blur-xl bg-black/40 border border-white/10 shadow-2xl">
-          {/* Logo and Title */}
-          <div className="flex items-center justify-center space-x-4 mb-8">
-            <div className="p-3 rounded-full bg-gradient-to-br from-green-400 to-green-600 shadow-lg">
-              <SlSocialSpotify className="w-8 h-8 text-white animate-pulse" />
-            </div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-              Song Downloader
-            </h1>
-          </div>
+@keyframes titleGlow {
+  0%, 100% {
+    text-shadow: 0 0 20px rgba(74, 222, 128, 0.5),
+                 0 0 40px rgba(74, 222, 128, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 10px rgba(74, 222, 128, 0.3),
+                 0 0 20px rgba(74, 222, 128, 0.2);
+  }
+}
 
-          {/* Input Group */}
-          <div className="space-y-4">
-            <div className="relative">
-              <input
-                type="url"
-                placeholder="Paste Spotify song link here (e.g., https://open.spotify.com/track/...)"
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-white placeholder-gray-400 transition-all duration-300"
-                onChange={handleURL}
-                value={URL}
-              />
-            </div>
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
 
-            {error && (
-              <div className="text-red-500 text-sm text-center bg-red-500/10 p-2 rounded-lg">
-                {error}
-              </div>
-            )}
+@keyframes glow {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.8;
+    filter: brightness(1.2);
+  }
+}
 
-            <button
-              onClick={downloadSong}
-              disabled={isLoading || !URL}
-              className={`w-full py-3 px-4 rounded-lg font-medium transition-all duration-300 
-                ${isLoading || !URL 
-                  ? 'bg-gray-600 cursor-not-allowed' 
-                  : 'bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 text-white shadow-lg hover:shadow-green-500/25'
-                }
-              `}
-            >
-              {isLoading ? (
-                <span className="flex items-center justify-center">
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Processing...
-                </span>
-              ) : (
-                'Download Song'
-              )}
-            </button>
-          </div>
+.bg-gradient-animate {
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
 
-          {/* Footer */}
-          <p className="mt-6 text-center text-sm text-gray-400">
-            Enter a valid Spotify song link to download
-          </p>
-        </div>
-      </div>
-    </div>
-  );
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.noise {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+.github-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 50;
+  transition: all 0.3s ease;
+}
+
+.github-btn:hover {
+  transform: scale(1.1) rotate(8deg);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.5);
 }
